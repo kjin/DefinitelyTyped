@@ -6096,13 +6096,28 @@ declare module "async_hooks" {
 
         /**
          * Call AsyncHooks before callbacks.
+         * @deprecated Use asyncResource.runInAsyncScope() instead.
          */
         emitBefore(): void;
 
         /**
-         * Call AsyncHooks after callbacks
+         * Call AsyncHooks after callbacks.
+         * @deprecated Use asyncResource.runInAsyncScope() instead.
          */
         emitAfter(): void;
+
+        /**
+         * Call the provided function with the provided arguments in the
+         * execution context of the async resource. This will establish the
+         * context, trigger the AsyncHooks before callbacks, call the function,
+         * trigger the AsyncHooks after callbacks, and then restore the original
+         * execution context.
+         * @param fn The function to call in the execution context of this async
+         *           resource.
+         * @param thisArg The receiver to be used for the function call.
+         * @param args Optional arguments to pass to the function.
+         */
+        runInAsyncScope<This, Result>(fn: (this: This, ...args: any[]) => Result, thisArg?: This, ...args: any[]): Result;
 
         /**
          * Call AsyncHooks destroy callbacks.

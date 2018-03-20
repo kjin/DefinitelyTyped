@@ -3333,8 +3333,8 @@ namespace async_hooks_tests {
             const tId: number = this.triggerAsyncId();
         }
         run() {
-            this.emitBefore();
-            this.emitAfter();
+            this.runInAsyncScope(() => {});
+            this.runInAsyncScope(Array.prototype.find, [], () => true);
         }
         destroy() {
             this.emitDestroy();
